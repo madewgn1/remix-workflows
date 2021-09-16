@@ -1,14 +1,14 @@
-name: deploy
+# name: Botgram shell-bot Runner
 
 on:
-  pull_request:
   push:
-    branches:
-    - main
+    branches: [ main ]
+    paths-ignore: 'README.md'
+  workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  macos:
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
