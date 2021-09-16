@@ -1,0 +1,32 @@
+name: deploy
+
+on:
+  pull_request:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Install bahan bahan
+        run: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+          export NVM_DIR=~/.nvm 
+          source ~/.nvm/nvm.sh
+          nvm install node
+          npm i -g pm2
+          sudo apt install ffmpeg
+
+      - name: Install repo & config
+        run: |
+          git clone https://github.com/callsmusic/remix && cd remix
+          npm i
+          wget https://gist.github.com/MADEWGN/8039899468f8ee99011f9ed82bc05f76/raw/.env
+          pm2 start dist --name remix
+          
